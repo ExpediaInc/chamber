@@ -49,7 +49,7 @@ func (s *JSONStore) Read(id SecretId, version int) (Secret, error) {
 
 func (s *JSONStore) List(service string, includeValues bool) ([]Secret, error) {
 	if service, ok := s.services[service]; ok {
-		secrets := make([]Secret, len(service.secrets))
+		secrets := make([]Secret, 0, len(service.secrets))
 		for _, s := range service.secrets {
 			secrets = append(secrets, s)
 		}
@@ -89,8 +89,9 @@ func extractService(json interface{}) service {
 }
 
 func extractSecret(key string, json interface{}) Secret {
+	value := json.(string)
 	return Secret{
-		Value: json.(*string),
+		Value: &value,
 		Meta: SecretMetadata{
 			Version: 1,
 			Key:     key,
