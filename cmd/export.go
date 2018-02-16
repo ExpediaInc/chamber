@@ -10,9 +10,10 @@ import (
 	"sort"
 	"strings"
 
+	"chamber/store"
+
 	"github.com/magiconair/properties"
 	"github.com/pkg/errors"
-	"github.com/segmentio/chamber/store"
 	"github.com/spf13/cobra"
 )
 
@@ -38,7 +39,7 @@ func init() {
 func runExport(cmd *cobra.Command, args []string) error {
 	var err error
 
-	secretStore := store.NewSSMStore(numRetries)
+	secretStore := store.NewStore(numRetries)
 	params := make(map[string]string)
 	for _, service := range args {
 		if err := validateService(service); err != nil {

@@ -6,8 +6,9 @@ import (
 	"os"
 	"strings"
 
+	"chamber/store"
+
 	"github.com/pkg/errors"
-	"github.com/segmentio/chamber/store"
 	"github.com/spf13/cobra"
 )
 
@@ -58,7 +59,7 @@ func write(cmd *cobra.Command, args []string) error {
 		}
 	}
 
-	secretStore := store.NewSSMStore(numRetries)
+	secretStore := store.NewStore(numRetries)
 	secretId := store.SecretId{
 		Service: service,
 		Key:     key,
