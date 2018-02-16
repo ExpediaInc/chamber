@@ -6,8 +6,9 @@ import (
 	"strings"
 	"text/tabwriter"
 
+	"chamber/store"
+
 	"github.com/pkg/errors"
-	"github.com/segmentio/chamber/store"
 	"github.com/spf13/cobra"
 )
 
@@ -34,7 +35,7 @@ func history(cmd *cobra.Command, args []string) error {
 		return errors.Wrap(err, "Failed to validate key")
 	}
 
-	secretStore := store.NewSSMStore(numRetries)
+	secretStore := store.NewStore(numRetries)
 	secretId := store.SecretId{
 		Service: service,
 		Key:     key,

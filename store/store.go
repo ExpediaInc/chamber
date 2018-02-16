@@ -2,6 +2,7 @@ package store
 
 import (
 	"errors"
+	"os"
 	"time"
 )
 
@@ -58,4 +59,13 @@ type Store interface {
 	List(service string, includeValues bool) ([]Secret, error)
 	History(id SecretId) ([]ChangeEvent, error)
 	Delete(id SecretId) error
+}
+
+func NewStore(numRetries int) Store {
+	jsonPath, useJSON := os.LookupEnv("CHAMBER_JSON_PATH")
+	if useJSON {
+		return NewJSONStore(jsonPath)
+	}
+
+	return NewSSMStore(numRetries)
 }
