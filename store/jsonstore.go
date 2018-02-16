@@ -21,7 +21,10 @@ func NewJSONStore(filePath string) *JSONStore {
 	raw, err := ioutil.ReadFile(filePath)
 
 	if err != nil {
-		panic(err)
+		// No file? No Secrets
+		return &JSONStore{
+			services: make(map[string]service),
+		}
 	}
 
 	var jsonData map[string]interface{}
